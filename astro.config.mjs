@@ -4,10 +4,12 @@ import starlight from '@astrojs/starlight';
 
 // https://astro.build/config
 export default defineConfig({
+	site: 'https://github.com/dmmlpaz/',
+	base: 'manual-portal-smarttmt-github',
 	image: {
 		service: passthroughImageService(),
 	},
-	site: 'http://localhost:4321/',
+	//site: 'http://localhost:4321/',
 	integrations: [
 		starlight({
 			title: 'Manual portal tribuitario',
