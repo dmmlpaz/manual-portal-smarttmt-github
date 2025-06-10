@@ -6,6 +6,9 @@ const isLocal = process.env.TINA_PUBLIC_IS_LOCAL === "true";
 const branch = process.env.HEAD || process.env.VERCEL_GIT_COMMIT_REF || "main";
 
 export default defineConfig({
+  clientId:'undefined',
+  branch: branch,
+  token:undefined,
 authProvider: isLocal
     ? new LocalAuthProvider()
     : new UsernamePasswordAuthJSProvider(),
