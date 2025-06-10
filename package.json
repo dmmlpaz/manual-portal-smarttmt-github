@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@astrojs/starlight": "^0.34.3",
+    "@tinacms/datalayer": "^1.3.18",
     "astro": "^5.7.13",
     "mongodb-level": "^0.0.4",
     "sharp": "^0.32.6",

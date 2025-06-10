@@ -5,7 +5,6 @@ import {
   TinaUserCollection,
 } from "tinacms-authjs/dist/tinacms";
 
-
 const isLocal = process.env.TINA_PUBLIC_IS_LOCAL === "true";
 
 export default defineConfig({
