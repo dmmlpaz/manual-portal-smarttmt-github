@@ -4,7 +4,11 @@ import starlight from '@astrojs/starlight';
 
 // https://astro.build/config
 export default defineConfig({
+<<<<<<< HEAD
 	site: 'https://github.com/dmmlpaz/',
+=======
+	site: 'https://dmmlpaz.github.io/',
+>>>>>>> 9288227eb229081c191f04520ae8529c3371f467
 	base: 'manual-portal-smarttmt-github',
 	image: {
 		service: passthroughImageService(),
