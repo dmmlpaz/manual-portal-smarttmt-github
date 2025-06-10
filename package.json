@@ -19,7 +19,7 @@
     "astro": "^5.7.13",
     "mongodb-level": "^0.0.4",
     "sharp": "^0.32.6",
-    "tinacms": "^2.2.1",
+    "tinacms": "2.2.1",
     "tinacms-authjs": "^10.0.7",
     "tinacms-gitprovider-github": "^2.0.17"
   },
