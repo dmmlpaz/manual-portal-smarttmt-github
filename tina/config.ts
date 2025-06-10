@@ -1,18 +1,20 @@
-import { UsernamePasswordAuthJSProvider } from 'tinacms-authjs/dist/tinacms'
-import { LocalAuthProvider, defineConfig } from 'tinacms'
+import { defineConfig } from "tinacms";
 
-const isLocal = process.env.TINA_PUBLIC_IS_LOCAL === "true";
-
-const branch = process.env.HEAD || process.env.VERCEL_GIT_COMMIT_REF || "main";
+// Your hosting provider likely exposes this as an environment variable
+const branch =
+  process.env.GITHUB_BRANCH ||
+  process.env.VERCEL_GIT_COMMIT_REF ||
+  process.env.HEAD ||
+  "main";
 
 export default defineConfig({
-  clientId:'undefined',
-  branch: branch,
-  token:undefined,
-authProvider: isLocal
-    ? new LocalAuthProvider()
-    : new UsernamePasswordAuthJSProvider(),
-  contentApiUrlOverride: "/api/tina/gql",
+  branch,
+
+  // Get this from tina.io
+  clientId: process.env.NEXT_PUBLIC_TINA_CLIENT_ID,
+  // Get this from tina.io
+  token: process.env.TINA_TOKEN,
+
   build: {
     outputFolder: "admin",
     publicFolder: "public",
@@ -29,7 +31,7 @@ authProvider: isLocal
       {
         name: "post",
         label: "Posts",
-        path: "src/content/docs",
+        path: "content/posts",
         fields: [
           {
             type: "string",
@@ -43,20 +45,9 @@ authProvider: isLocal
             name: "body",
             label: "Body",
             isBody: true,
-          }
+          },
         ],
       },
-
     ],
-
   },
-
-  cmsCallback: (cms) => {
-    // Deshabilitar la creación de archivos .gitkeep.md
-    cms.flags.set('tina-admin', {
-      useGitKeep: false
-    });
-    return cms;
-  },
-
 });
