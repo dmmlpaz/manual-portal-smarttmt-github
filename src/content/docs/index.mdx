@@ -1,17 +1,36 @@
 ---
-title: Bienvenido al manual de contribuyentes portal tributario
-description: Manual de usuario contribuyente portal.
+title: Welcome to Starlight
+description: Get started building your docs site with Starlight.
 template: splash
-layout: ../../layouts/Home.astro
 hero:
+  tagline: Congrats on setting up a new Starlight project!
   image:
-    file: ../../assets/aireportal.png
+    file: ../../assets/houston.webp
   actions:
-    - text: Ingrese
-      link: /iniciosesion/example/
+    - text: Example Guide
+      link: /guides/example/
       icon: right-arrow
+    - text: Read the Starlight docs
+      link: https://starlight.astro.build
+      icon: external
+      variant: minimal
 ---
 
-import Home from '../../layouts/Home.astro';
+import { Card, CardGrid } from '@astrojs/starlight/components';
 
-<Home/>
+## Next steps
+
+<CardGrid stagger>
+	<Card title="Update content" icon="pencil">
+		Edit `src/content/docs/index.mdx` to see this page change.
+	</Card>
+	<Card title="Add new content" icon="add-document">
+		Add Markdown or MDX files to `src/content/docs` to create new pages.
+	</Card>
+	<Card title="Configure your site" icon="setting">
+		Edit your `sidebar` and other config in `astro.config.mjs`.
+	</Card>
+	<Card title="Read the docs" icon="open-book">
+		Learn more in [the Starlight Docs](https://starlight.astro.build/).
+	</Card>
+</CardGrid>

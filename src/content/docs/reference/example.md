@@ -1,6 +1,6 @@
 ---
-title: Inicio de sesión
-description: Como un cotribuyente puede ingresar al sistema portal tributario
+title: Example Reference
+description: A reference page in my new Starlight docs site.
 ---
 
 Reference pages are ideal for outlining how things work in terse and clear terms.

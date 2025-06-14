@@ -1,74 +1,24 @@
 // @ts-check
-import { defineConfig, passthroughImageService } from 'astro/config';
+import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 
 // https://astro.build/config
 export default defineConfig({
-<<<<<<< HEAD
-	site: 'https://github.com/dmmlpaz/',
-=======
-	site: 'https://dmmlpaz.github.io/',
->>>>>>> 9288227eb229081c191f04520ae8529c3371f467
-	base: 'manual-portal-smarttmt-github',
-	image: {
-		service: passthroughImageService(),
-	},
-	//site: 'http://localhost:4321/',
 	integrations: [
 		starlight({
-			title: 'Manual portal tribuitario',
-			defaultLocale: 'root',
-			locales: {
-				root: {
-					label: 'Español',
-					lang: 'es', // lang is required for root locales
-				},
-				en: {
-					label: 'English',
-				},
-			},
-			logo: {
-				src: './src/assets/logo.png',
-				alt: 'Tribuitario Logo',
-			},
-			favicon: './src/assets/favicon.png',
-			customCss: ['./src/styles/custom.css'],
+			title: 'My Docs',
+			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/withastro/starlight' }],
 			sidebar: [
 				{
-					label: 'Inicio sesión',
-					autogenerate: {
-						directory: 'iniciosesion',
-					},
+					label: 'Guides',
+					items: [
+						// Each item here is one entry in the navigation menu.
+						{ label: 'Example Guide', slug: 'guides/example' },
+					],
 				},
 				{
-					label: 'Registro de usuario',
-					autogenerate: {
-						directory: 'registrousuario',
-					},
-				},
-				{
-					label: 'Declaraciones',
-					autogenerate: {
-						directory: 'declaraciones',
-					},
-				},
-				{
-					label: 'Rit',
-					autogenerate: {
-						directory: 'rit',
-					},
-				},
-				{
-					label: 'Firma electronica',
-					autogenerate: {
-						directory: 'firmaelectronica',
-					},
-				},
-				{
-					label: 'Prueba',
-					autogenerate: {
-						directory: 'prueba',
-					},
+					label: 'Reference',
+					autogenerate: { directory: 'reference' },
 				},
 			],
 		}),

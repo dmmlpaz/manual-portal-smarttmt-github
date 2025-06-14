@@ -1,115 +1,54 @@
-# Configuracion Tina
+# Starlight Starter Kit: Basics
 
-    -- Url del admin http://localhost:4321/admin/index.html
+[![Built with Starlight](https://astro.badg.es/v2/built-with-starlight/tiny.svg)](https://starlight.astro.build)
 
-    1. Archivo config.ts permite definir el self-hoste auto hospedaje Tina Config:
+```
+pnpm create astro@latest -- --template starlight
+```
 
-        const isLocal = process.env.TINA_PUBLIC_IS_LOCAL === "true";
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/starlight/tree/main/examples/basics)
+[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/starlight/tree/main/examples/basics)
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/withastro/starlight&create_from_path=examples/basics)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fwithastro%2Fstarlight%2Ftree%2Fmain%2Fexamples%2Fbasics&project-name=my-starlight-docs&repository-name=my-starlight-docs)
 
-        import { defineConfig,LocalAuthProvider} from "tinacms";
-        import { CustomAuthProvider } from "./CustomAuthProvider";
-        import {
-        UsernamePasswordAuthJSProvider,
-        TinaUserCollection,
-        } from "tinacms-authjs/dist/tinacms";
+> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
 
+## 🚀 Project Structure
 
-        const isLocal = process.env.TINA_PUBLIC_IS_LOCAL === "true";
+Inside of your Astro + Starlight project, you'll see the following folders and files:
 
-        export default defineConfig({
-        authProvider: isLocal
-        ? new LocalAuthProvider()
-        : new UsernamePasswordAuthJSProvider(),
-        contentApiUrlOverride: "/api/tina/gql",
-        build: {
-        outputFolder: "admin",
-        publicFolder: "public",
-        },
-        media: {
-        tina: {
-        mediaRoot: "",
-        publicFolder: "public",
-        },
-        },
-        // See docs on content modeling for more info on how to setup new content models: https://tina.io/docs/schema/
-        schema: {
-        collections: [
+```
+.
+├── public/
+├── src/
+│   ├── assets/
+│   ├── content/
+│   │   ├── docs/
+│   └── content.config.ts
+├── astro.config.mjs
+├── package.json
+└── tsconfig.json
+```
 
-        TinaUserCollection,
-        ],
+Starlight looks for `.md` or `.mdx` files in the `src/content/docs/` directory. Each file is exposed as a route based on its file name.
 
-        },
+Images can be added to `src/assets/` and embedded in Markdown with a relative link.
 
-        cmsCallback: (cms) => {
-        // Deshabilitar la creación de archivos .gitkeep.md
-        cms.flags.set('tina-admin', {
-        useGitKeep: false
-        });
-        return cms;
-        },
+Static assets, like favicons, can be placed in the `public/` directory.
 
-        });
+## 🧞 Commands
 
-    2. Archivo [...routes].ts Tina Backend
+All commands are run from the root of the project, from a terminal:
 
-        // pages/api/tina/[...routes].ts
-        import { LocalBackendAuthProvider, TinaNodeBackend } from '@tinacms/datalayer';
-        import databaseClient from './__generated__/databaseClient';
-        import { AuthJsBackendAuthProvider, TinaAuthJSOptions } from 'tinacms-authjs';
+| Command                   | Action                                           |
+| :------------------------ | :----------------------------------------------- |
+| `pnpm install`             | Installs dependencies                            |
+| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
+| `pnpm build`           | Build your production site to `./dist/`          |
+| `pnpm preview`         | Preview your build locally, before deploying     |
+| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
+| `pnpm astro -- --help` | Get help using the Astro CLI                     |
 
+## 👀 Want to learn more?
 
-        const isLocal = process.env.TINA_PUBLIC_IS_LOCAL === 'true'
-
-
-        const handler = TinaNodeBackend({
-        authProvider: isLocal
-        ? LocalBackendAuthProvider()
-        : AuthJsBackendAuthProvider({
-        authOptions: TinaAuthJSOptions({
-            databaseClient: databaseClient,
-            secret: process.env.NEXTAUTH_SECRET ?? '',
-        }),
-        }),
-        databaseClient,
-        })
-
-
-
-        export default (req: any, res: any): Promise<void> | void => {
-        return handler(req, res)
-        }
-
-    3. Archivo a crear nombre database.ts donde se configura los enlaces a la base de datos y al repositio de git
-
-        import { MongodbLevel } from "mongodb-level"
-        import { createDatabase } from "@tinacms/datalayer";
-        import { GitHubProvider } from "tinacms-gitprovider-github";
-
-
-        export default createDatabase({
-        gitProvider: new GitHubProvider({
-        repo: 'https://github.com/dmmlpaz/manual-portal-smarttmt-github',
-        owner: 'dmmlpaz',
-        token: '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',
-        branch: process.env.GITHUB_BRANCH || "main"
-        }),
-        databaseAdapter: new MongodbLevel({
-        collectionName: "tinacms",
-        dbName: "tinacms",
-        mongoUri: 'mongodb://root:tina-startlight@172.17.0.1:27017',
-        }),
-        useLocalClient: true // Necesario para self-hosted
-        });
-
-    4. Para usuario desde el proyecto para el TinaUserCollection se de bebe crear el archvio src/content/users/index.json
-
-        {
-            "users": [
-            {
-                "name": "Tina User",
-                "email": "user@tina.io",
-                "username": "admin",
-                "password": "admin"
-            }
-        ]
-        }
+Check out [Starlight’s docs](https://starlight.astro.build/), read [the Astro documentation](https://docs.astro.build), or jump into the [Astro Discord server](https://astro.build/chat).
