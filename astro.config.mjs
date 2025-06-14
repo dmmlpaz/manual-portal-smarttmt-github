@@ -4,6 +4,7 @@ import starlight from '@astrojs/starlight';
 
 // https://astro.build/config
 export default defineConfig({
+	base: "/",  // Asegúrate de que no sea una subruta (ej: "/docs")
 	image: {
 		service: passthroughImageService(),
 	},
