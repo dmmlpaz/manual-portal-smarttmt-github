@@ -10,20 +10,39 @@ export default defineConfig({
 	},
 	integrations: [
 		starlight({
-			title: 'My Docs',
+			title: 'Portal tributario Doc.', 
 			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/withastro/starlight' }],
 			sidebar: [
 				{
-					label: 'Guides',
-					items: [
-						// Each item here is one entry in the navigation menu.
-						{ label: 'Example Guide', slug: 'guides/example' },
-					],
+					label: 'Inicio sesión',
+					autogenerate: {
+						directory: 'iniciosesion',
+					},
 				},
 				{
-					label: 'Reference',
-					autogenerate: { directory: 'reference' },
+					label: 'Registro de usuario',
+					autogenerate: {
+						directory: 'registrousuario',
+					},
 				},
+				{
+					label: 'Declaraciones',
+					autogenerate: {
+						directory: 'declaraciones',
+					},
+				},
+				{
+					label: 'Rit',
+					autogenerate: {
+						directory: 'rit',
+					},
+				},
+				{
+					label: 'Firma electronica',
+					autogenerate: {
+						directory: 'firmaelectronica',
+					},
+				}
 			],
 		}),
 	],
