@@ -15,7 +15,7 @@ export default (async () => {
         gitProvider: new GitHubProvider({
             repo: process.env.GITHUB_REPO!,
             owner: process.env.GITHUB_OWNER!,
-            token: process.env.GITHUB_PERSONAL_ACCESS_TOKEN!,
+           // token: process.env.GITHUB_PERSONAL_ACCESS_TOKEN!,
             branch: process.env.GITHUB_BRANCH || "main"
         }),
         databaseAdapter: new MongodbLevel({
