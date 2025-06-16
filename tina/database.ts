@@ -13,9 +13,9 @@ export default (async () => {
 
     return createDatabase({
         gitProvider: new GitHubProvider({
-            repo: 'https://github.com/dmmlpaz/manual-portal-smarttmt-github',
-            owner: 'dmmlpaz',
-            token: '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',
+            repo: process.env.GITHUB_REPO!,
+            owner: process.env.GITHUB_OWNER!,
+            token: process.env.GITHUB_PERSONAL_ACCESS_TOKEN!,
             branch: process.env.GITHUB_BRANCH || "main"
         }),
         databaseAdapter: new MongodbLevel({
