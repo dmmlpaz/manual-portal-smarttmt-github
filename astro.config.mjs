@@ -1,9 +1,14 @@
 // @ts-check
 import { defineConfig,passthroughImageService } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import node from '@astrojs/node';
 
 // https://astro.build/config
 export default defineConfig({
+	output: 'server', // habilita SSR
+	adapter: node({
+		mode: 'standalone', // o 'middleware' si usas otro framework
+	}),
 	base: "/",  // Asegúrate de que no sea una subruta (ej: "/docs")
 	image: {
 		service: passthroughImageService(),

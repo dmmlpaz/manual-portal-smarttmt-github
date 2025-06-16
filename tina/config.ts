@@ -1,4 +1,4 @@
-import { defineConfig } from "tinacms";
+import { defineConfig, LocalAuthProvider } from "tinacms";
 
 // Your hosting provider likely exposes this as an environment variable
 const branch =
@@ -8,8 +8,8 @@ const branch =
   "main";
 
 export default defineConfig({
+  authProvider: new LocalAuthProvider(),
   branch,
-
   // Get this from tina.io
   clientId: '3c2cad96-ed11-4ba4-a244-cc64ef8d4641',
   // Get this from tina.io
@@ -51,5 +51,12 @@ export default defineConfig({
         ],
       },
     ],
+  },
+  cmsCallback: (cms) => {
+    // Deshabilitar la creación de archivos .gitkeep.md
+    cms.flags.set('tina-admin', {
+      useGitKeep: false
+    });
+    return cms;
   },
 });
