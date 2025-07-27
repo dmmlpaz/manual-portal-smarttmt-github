@@ -11,10 +11,10 @@ export default defineConfig({
   authProvider: new LocalAuthProvider(),
   branch,
   // Get this from tina.io
-  clientId: '3c2cad96-ed11-4ba4-a244-cc64ef8d4641',
+  //clientId: '3c2cad96-ed11-4ba4-a244-cc64ef8d4641',
   // Get this from tina.io
-  token:'f9b47611f69baa28dd27632140efa7474cc34487',
-
+  //token:'f9b47611f69baa28dd27632140efa7474cc34487',
+  contentApiUrlOverride: "/api/tina", // Ruta ficticia
   build: {
     outputFolder: "admin",
     publicFolder: "public",
