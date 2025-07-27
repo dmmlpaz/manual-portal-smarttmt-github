@@ -1,21 +1,35 @@
 // @ts-check
-import { defineConfig,passthroughImageService } from 'astro/config';
+import { defineConfig, passthroughImageService } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import node from '@astrojs/node';
+import react from '@astrojs/react';
 
 // https://astro.build/config
 export default defineConfig({
-	output: 'server', // habilita SSR
+	// habilita SSR
+	output: 'server',
+
 	adapter: node({
 		mode: 'standalone', // o 'middleware' si usas otro framework
 	}),
-	base: "/",  // Asegúrate de que no sea una subruta (ej: "/docs")
+
+	// Asegúrate de que no sea una subruta (ej: "/docs")
+	base: "/",
+
 	image: {
 		service: passthroughImageService(),
 	},
+
 	integrations: [
 		starlight({
-			title: 'Portal tributario Doc.', 
+			components: {
+				// Aquí es donde debe ir la configuración de componentes
+				Footer: './src/components/ChatIA.astro' // Ruta a tu componente de chat
+			},
+			title: 'Portal tributario Doc.',
+			customCss: [
+				'./src/styles/custom.css',
+			],
 			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/withastro/starlight' }],
 			sidebar: [
 				{
@@ -49,6 +63,8 @@ export default defineConfig({
 					},
 				}
 			],
+
 		}),
+		react()
 	],
 });
