@@ -1,4 +1,5 @@
 import { defineConfig, LocalAuthProvider } from "tinacms";
+import { CustomAuthProvider } from "./CustomAuthProvider";
 
 // Your hosting provider likely exposes this as an environment variable
 const branch =
@@ -8,13 +9,13 @@ const branch =
   "main";
 
 export default defineConfig({
-  authProvider: new LocalAuthProvider(),
+  authProvider: new CustomAuthProvider(),
   branch,
   // Get this from tina.io
   //clientId: '3c2cad96-ed11-4ba4-a244-cc64ef8d4641',
   // Get this from tina.io
   //token:'f9b47611f69baa28dd27632140efa7474cc34487',
-  contentApiUrlOverride: "/api/tina", // Ruta ficticia
+  contentApiUrlOverride: "/api/tina",
   build: {
     outputFolder: "admin",
     publicFolder: "public",

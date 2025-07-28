@@ -22,10 +22,6 @@ export default defineConfig({
 
 	integrations: [
 		starlight({
-			components: {
-				// Aquí es donde debe ir la configuración de componentes
-				Footer: './src/components/ChatIA.astro' // Ruta a tu componente de chat
-			},
 			title: 'Portal tributario Doc.',
 			customCss: [
 				'./src/styles/custom.css',
@@ -67,4 +63,7 @@ export default defineConfig({
 		}),
 		react()
 	],
+	experimental: {
+    session: true, // ✅ Activa la bandera necesaria
+  },
 });
