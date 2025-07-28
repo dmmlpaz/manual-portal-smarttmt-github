@@ -1,40 +1,49 @@
-// src/pages/api/tina/[...routes].ts
 import type { APIRoute } from 'astro';
-import { TinaNodeBackend } from '@tinacms/datalayer';
-import databaseClient from '../../../../tina/__generated__/databaseClient';
+import { TinaNodeBackend,LocalBackendAuthProvider } from '@tinacms/datalayer';
 import { CustomBackendAuth } from '../../../../tina/CustomBackendAuth';
+import databaseClient from '../../../../tina/__generated__/databaseClient';
 import type { IncomingMessage, ServerResponse } from 'http';
+import { Readable } from 'stream';
 
 const backend = TinaNodeBackend({
   authProvider: CustomBackendAuth(),
   databaseClient,
 });
 
-
-export const all: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request }) => {
   const url = new URL(request.url);
-
   const headers: Record<string, string> = {};
-  request.headers.forEach((value, key) => {
-    headers[key] = value;
-  });
+  request.headers.forEach((v, k) => (headers[k.toLowerCase()] = v)); // ✅ asegúrate de usar lowercase
+
+  // ⚠️ fuerza content-type en minúsculas
+  if (headers['Content-Type']) {
+    headers['content-type'] = headers['Content-Type'];
+    delete headers['Content-Type'];
+  }
 
   const bodyText = await request.text();
 
-  const req = {
+  const req = Object.assign(Readable.from([bodyText]), {
     method: request.method,
-    url: url.pathname.replace(/^\/api\/tina/, '') || '/',
+    url: url.pathname.replace(/^\/api\/tina/, '') || '/graphql',
     headers,
-    body: bodyText,
-  } as unknown as IncomingMessage;
+  }) as unknown as IncomingMessage;
 
   let responseBody = '';
   const res = {
     setHeader: () => {},
-    write: (chunk: string) => (responseBody += chunk),
+    write: (chunk: string) => {
+      responseBody += chunk;
+    },
     end: () => {},
     statusCode: 200,
   } as unknown as ServerResponse;
+
+  console.log('Calling Tina backend with:', {
+    method: req.method,
+    url: req.url,
+    headers: req.headers,
+  });
 
   await backend(req, res);
 

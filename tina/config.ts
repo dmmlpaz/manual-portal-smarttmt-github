@@ -15,7 +15,8 @@ export default defineConfig({
   //clientId: '3c2cad96-ed11-4ba4-a244-cc64ef8d4641',
   // Get this from tina.io
   //token:'f9b47611f69baa28dd27632140efa7474cc34487',
-  contentApiUrlOverride: "/api/tina",
+  //contentApiUrlOverride: "/api/tina",
+  contentApiUrlOverride: "http://localhost:4001/tina", // URL del servidor Node
   build: {
     outputFolder: "admin",
     publicFolder: "public",

@@ -6,6 +6,13 @@ import react from '@astrojs/react';
 
 // https://astro.build/config
 export default defineConfig({
+	vite: {
+		server: {
+			proxy: {
+				'/api/tina': 'http://localhost:4001',
+			},
+		},
+	},
 	// habilita SSR
 	output: 'server',
 
@@ -64,6 +71,6 @@ export default defineConfig({
 		react()
 	],
 	experimental: {
-    session: true, // ✅ Activa la bandera necesaria
-  },
+		session: true, // ✅ Activa la bandera necesaria
+	},
 });
