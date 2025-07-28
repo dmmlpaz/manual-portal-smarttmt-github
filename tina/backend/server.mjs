@@ -1,6 +1,7 @@
 import express from 'express';
 import { TinaNodeBackend, LocalBackendAuthProvider } from '@tinacms/datalayer';
 import { databaseClient } from '../__generated__/databaseClient.js';
+import { CustomBackendAuth } from '../CustomBackendAuth.js';
 
 const app = express();
 const port = 4001;
@@ -18,7 +19,7 @@ app.use((req, res, next) => {
 
 // 2. Tina backend
 const backend = TinaNodeBackend({
-  authProvider: LocalBackendAuthProvider(),
+  authProvider: CustomBackendAuth(),
   databaseClient: {
     ...databaseClient,
     ping: async () => ({ status: 'active', collections: Object.keys(databaseClient.collections) }),
