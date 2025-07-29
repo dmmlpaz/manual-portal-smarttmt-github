@@ -29,14 +29,14 @@ const backend = TinaNodeBackend({
 app.use('/tina', async (req, res, next) => {
   if (req.method !== 'POST') return next();
 
-  const internalPath = req.originalUrl.replace(/^\/tina/, '') || '/graphql';
+  const internalPath = req.originalUrl;
   console.log(`📥 Petición recibida en: ${req.originalUrl}`);
   console.log(`🔄 Ruta interna convertida: ${internalPath}`);
 
   try {
     const tinaReq = {
       method: req.method,
-      url: internalPath,
+      url: internalPath, // ✅ NO recortada
       headers: {
         ...req.headers,
         'content-type': 'application/json',
@@ -48,7 +48,7 @@ app.use('/tina', async (req, res, next) => {
     const tinaRes = {
       setHeader: (k, v) => res.setHeader(k, v),
       write: (chunk) => (responsePayload += chunk),
-      end: () => {},
+      end: () => { },
       statusCode: 200,
       getHeaders: () => ({}),
     };

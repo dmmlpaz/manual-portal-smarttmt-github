@@ -1,54 +1,78 @@
 import type { APIRoute } from 'astro';
-import { TinaNodeBackend,LocalBackendAuthProvider } from '@tinacms/datalayer';
-import { CustomBackendAuth } from '../../../../tina/CustomBackendAuth';
+import { TinaNodeBackend, LocalBackendAuthProvider } from '@tinacms/datalayer';
 import databaseClient from '../../../../tina/__generated__/databaseClient';
-import type { IncomingMessage, ServerResponse } from 'http';
+import { IncomingMessage } from 'http';
 import { Readable } from 'stream';
 
 const backend = TinaNodeBackend({
-  authProvider: CustomBackendAuth(),
+  authProvider: LocalBackendAuthProvider(),
   databaseClient,
 });
 
-export const POST: APIRoute = async ({ request }) => {
-  const url = new URL(request.url);
-  const headers: Record<string, string> = {};
-  request.headers.forEach((v, k) => (headers[k.toLowerCase()] = v)); // ✅ asegúrate de usar lowercase
+class MockServerResponse {
+  headers: Record<string, string> = {};
+  chunks: Uint8Array[] = [];
+  statusCode: number = 200;
 
-  // ⚠️ fuerza content-type en minúsculas
-  if (headers['Content-Type']) {
-    headers['content-type'] = headers['Content-Type'];
-    delete headers['Content-Type'];
+  writeHead(statusCode: number, headers?: Record<string, string>) {
+    this.statusCode = statusCode;
+    if (headers) {
+      this.headers = headers;
+    }
   }
 
-  const bodyText = await request.text();
+  setHeader(key: string, value: string) {
+    this.headers[key.toLowerCase()] = value;
+  }
 
-  const req = Object.assign(Readable.from([bodyText]), {
-    method: request.method,
-    url: url.pathname.replace(/^\/api\/tina/, '') || '/graphql',
-    headers,
-  }) as unknown as IncomingMessage;
+  getHeader(key: string) {
+    return this.headers[key.toLowerCase()];
+  }
 
-  let responseBody = '';
-  const res = {
-    setHeader: () => {},
-    write: (chunk: string) => {
-      responseBody += chunk;
-    },
-    end: () => {},
-    statusCode: 200,
-  } as unknown as ServerResponse;
+  getHeaders() {
+    return this.headers;
+  }
 
-  console.log('Calling Tina backend with:', {
-    method: req.method,
-    url: req.url,
-    headers: req.headers,
-  });
+  write(chunk: any) {
+    const buffer = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk);
+    this.chunks.push(buffer);
+    return true;
+  }
 
-  await backend(req, res);
+  end(chunk?: any) {
+    if (chunk) this.write(chunk);
+    // Aquí no retornamos nada; llamaremos manualmente el .toResponse()
+  }
 
-  return new Response(responseBody, {
-    status: res.statusCode,
-    headers: { 'Content-Type': 'application/json' },
-  });
+  toResponse(): Response {
+    const body = Buffer.concat(this.chunks).toString();
+    return new Response(body, {
+      status: this.statusCode,
+      headers: this.headers,
+    });
+  }
+}
+
+export const ALL: APIRoute = async ({ request }) => {
+  const body = await request.text();
+  const headers = Object.fromEntries(request.headers.entries());
+
+  const req = new Readable() as IncomingMessage & { body?: any };
+  req.headers = headers;
+  req.method = request.method;
+  req.url = request.url;
+  req.push(body);
+  req.push(null);
+
+  try {
+    req.body = JSON.parse(body);
+  } catch {
+    req.body = body;
+  }
+
+  const res = new MockServerResponse();
+  console.log('Request URL:', req.url);
+  await backend(req, res as any);
+   console.log('paso');
+  return res.toResponse();
 };
