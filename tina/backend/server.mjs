@@ -26,17 +26,17 @@ const backend = TinaNodeBackend({
   },
 });
 
-// 3. Manejador principal para POST /tina/*
-app.post(/^\/tina(\/.*)?$/, async (req, res) => {
-  const originalPath = req.path;
-  const internalPath = originalPath.replace(/^\/tina/, '') || '/graphql';
-  console.log(`📥 Petición recibida en: ${originalPath}`);
+app.use('/tina', async (req, res, next) => {
+  if (req.method !== 'POST') return next();
+
+  const internalPath = req.originalUrl.replace(/^\/tina/, '') || '/graphql';
+  console.log(`📥 Petición recibida en: ${req.originalUrl}`);
   console.log(`🔄 Ruta interna convertida: ${internalPath}`);
 
   try {
     const tinaReq = {
       method: req.method,
-      url: internalPath, // EJ: '/graphql'
+      url: internalPath,
       headers: {
         ...req.headers,
         'content-type': 'application/json',
@@ -59,10 +59,10 @@ app.post(/^\/tina(\/.*)?$/, async (req, res) => {
       .set('Content-Type', 'application/json')
       .send(responsePayload);
   } catch (error) {
-    console.error(`💥 Error en ${originalPath}:`, error.message);
+    console.error(`💥 Error en ${req.originalUrl}:`, error.message);
     res.status(500).json({
       error: 'Tina Processing Error',
-      path: originalPath,
+      path: req.originalUrl,
       details: process.env.NODE_ENV !== 'production' ? error.message : undefined,
     });
   }
@@ -70,11 +70,12 @@ app.post(/^\/tina(\/.*)?$/, async (req, res) => {
 
 // 4. OPTIONS para CORS
 app.options(/^\/tina(\/.*)?$/, (req, res) => {
+  console.log(`[OPTIONS] Preflight recibido para: ${req.originalUrl}`);
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4321');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   res.setHeader('Access-Control-Allow-Credentials', 'true');
-  res.sendStatus(204);
+  res.status(204).end(); // ✅ TERMINA CORRECTAMENTE
 });
 
 // 5. Endpoint /tina/health
