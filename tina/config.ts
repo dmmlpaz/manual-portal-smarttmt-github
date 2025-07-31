@@ -11,6 +11,10 @@ const branch =
   const isLocal = process.env.TINA_PUBLIC_IS_LOCAL === 'false'
 
 export default defineConfig({
+  client: {
+    // 👇 Esto evita que Tina use el modo Cloud
+    skip: true,
+  },
   authProvider:new LocalAuthProvider(),
   branch,
   // Get this from tina.io

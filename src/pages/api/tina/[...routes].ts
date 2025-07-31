@@ -4,9 +4,12 @@ import databaseClient from '../../../../tina/__generated__/databaseClient';
 import { IncomingMessage } from 'http';
 import { Readable } from 'stream';
 
+console.log('Database client:', databaseClient);
+//console.log('Does database have request method?', typeof databaseClient.request === 'function');
+
 const backend = TinaNodeBackend({
   authProvider: LocalBackendAuthProvider(),
-  databaseClient,
+  databaseClient
 });
 
 class MockServerResponse {
