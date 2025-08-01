@@ -16,6 +16,9 @@ pnpm-debug.log*
 # environment variables
 .env
 .env.production
+**/.env
+**/.env*
+**/.env.local
 
 # macOS-specific files
 .DS_Store
@@ -23,3 +26,6 @@ pnpm-debug.log*
 node_modules
 
 .gitkeep.md
+
+
+
