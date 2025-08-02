@@ -29,12 +29,14 @@ export default defineConfig({
       publicFolder: "public",
     },
   },
+  // See docs on content modeling for more info on how to setup new content models: https://tina.io/docs/schema/
   schema: {
     collections: [
+      TinaUserCollection,
       {
         name: "post",
         label: "Posts",
-        path: "content",
+        path: "content/posts",
         fields: [
           {
             type: "string",
@@ -51,15 +53,8 @@ export default defineConfig({
           },
         ],
         ui: {
-          filename: {
-            // Asegúrate que coincida con la estructura en GitHub
-            slugify: (values) => {
-              return `src/content/docs/${values?.title?.toLowerCase().replace(/ /g, '-')}`;
-            },
-          },
-          router: ({ document }) => {
-            return `/docs/${document._sys.filename}`;
-          },
+          // This is an DEMO router. You can remove this to fit your site
+          router: ({ document }) => `/demo/blog/${document._sys.filename}`,
         },
       },
     ],

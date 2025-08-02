@@ -8,7 +8,7 @@ const branch = (process.env.GITHUB_BRANCH ||
   process.env.HEAD ||
   "main")
 
-const isLocal =  process.env.TINA_PUBLIC_IS_LOCAL === 'false'
+const isLocal =  process.env.TINA_PUBLIC_IS_LOCAL === 'true'
 
 export default isLocal
   ? createLocalDatabase()
