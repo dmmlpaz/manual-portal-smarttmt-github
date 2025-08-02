@@ -39,6 +39,12 @@ importers:
       '@types/node':
         specifier: ^24.1.0
         version: 24.1.0
+      '@types/react':
+        specifier: 19.1.9
+        version: 19.1.9
+      typescript:
+        specifier: 5.9.2
+        version: 5.9.2
 
 packages:
 
