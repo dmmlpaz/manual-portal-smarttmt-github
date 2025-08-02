@@ -50,6 +50,17 @@ export default defineConfig({
             isBody: true,
           },
         ],
+        ui: {
+          filename: {
+            // Asegúrate que coincida con la estructura en GitHub
+            slugify: (values) => {
+              return `src/content/docs/${values?.title?.toLowerCase().replace(/ /g, '-')}`;
+            },
+          },
+          router: ({ document }) => {
+            return `/docs/${document._sys.filename}`;
+          },
+        },
       },
     ],
   },
