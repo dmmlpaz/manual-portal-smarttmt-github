@@ -36,7 +36,7 @@ export default defineConfig({
       {
         name: "post",
         label: "Posts",
-        path: "content/posts",
+        path: "content",
         fields: [
           {
             type: "string",
@@ -54,7 +54,7 @@ export default defineConfig({
         ],
         ui: {
           // This is an DEMO router. You can remove this to fit your site
-          router: ({ document }) => `/demo/blog/${document._sys.filename}`,
+          //router: ({ document }) => `/demo/blog/${document._sys.filename}`,
         },
       },
     ],
