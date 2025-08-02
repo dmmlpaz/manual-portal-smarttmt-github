@@ -27,7 +27,7 @@ node_modules
 
 .gitkeep.md
 
-/tina/content/
+/tina/content
 /tina/content/*
 /tina/.next/*
 
