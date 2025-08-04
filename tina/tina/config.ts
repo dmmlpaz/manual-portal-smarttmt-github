@@ -8,14 +8,13 @@ const branch =
   process.env.VERCEL_GIT_COMMIT_REF ||
   process.env.HEAD ||
   "main";
-const isLocal = process.env.TINA_PUBLIC_IS_LOCAL === "true";
+const isLocal = true//process.env.TINA_PUBLIC_IS_LOCAL === "true";
 export default defineConfig({
   contentApiUrlOverride: "/api/tina/gql",
   branch,
   authProvider: isLocal
     ? new LocalAuthProvider()
     : new UsernamePasswordAuthJSProvider(),
-
   build: {
     outputFolder: "admin",
     publicFolder: "public",

@@ -8,7 +8,10 @@ const branch = (process.env.GITHUB_BRANCH ||
   process.env.HEAD ||
   "main")
 
-const isLocal =  process.env.TINA_PUBLIC_IS_LOCAL === 'true'
+const isLocal =  false//process.env.TINA_PUBLIC_IS_LOCAL === 'true'
+
+console.log('Using isLocal:', isLocal)
+console.log('Using MONGODB_URI:', process.env.MONGODB_URI)
 
 export default isLocal
   ? createLocalDatabase()

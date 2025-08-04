@@ -8,7 +8,7 @@ services:
     ports:
       - "4321:4321"
     volumes:
-      - ./content:/content
+      - ./content:/app/src/content
     networks:
       - manual-portal-network
 
@@ -26,9 +26,41 @@ services:
     env_file:
       - ./.env
     volumes:
-    - ./content:/content
+    - ./content:/app/content
+    networks:
+      - manual-portal-network
+
+
+  manual-portal-mongo-tina:
+    image: mongo
+    container_name: manual-portal-mongo-tina
+    hostname: manual-portal-mongo-tina
+    restart: always
+    ports:
+        - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: tina-startlight
+    command: 
+      - "--bind_ip_all"  # Permite conexiones externas
+      - "--auth"         # Habilita autenticación
+    networks:
+      - manual-portal-network
+
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 7081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: tina-startlight
+      ME_CONFIG_MONGODB_URL: mongodb://root:tina-startlight@mongo:27017/
+      ME_CONFIG_BASICAUTH: false
     networks:
       - manual-portal-network
 
 networks:
   manual-portal-network:
+
