@@ -44,6 +44,8 @@ services:
     command: 
       - "--bind_ip_all"  # Permite conexiones externas
       - "--auth"         # Habilita autenticación
+    volumes:
+      - ./dataDB:/data/db
     networks:
       - manual-portal-network
 
@@ -56,11 +58,10 @@ services:
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: tina-startlight
-      ME_CONFIG_MONGODB_URL: mongodb://root:tina-startlight@mongo:27017/
+      ME_CONFIG_MONGODB_URL: mongodb://root:tina-startlight@manual-portal-mongo-tina:27017/
       ME_CONFIG_BASICAUTH: false
     networks:
       - manual-portal-network
 
 networks:
   manual-portal-network:
-
