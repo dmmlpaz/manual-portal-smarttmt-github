@@ -1,0 +1,34 @@
+services:
+
+  manual-portal-front:
+    image: manual-portal-front
+    container_name: manual-portal-front
+    hostname: manual-portal-front
+    restart: always
+    ports:
+      - "4321:4321"
+    volumes:
+      - ./content:/content
+    networks:
+      - manual-portal-network
+
+
+  manual-portal-cms-tina:
+    image: manual-portal-cms-tina
+    container_name:  manual-portal-cms-tina
+    hostname:  manual-portal-cms-tina
+    restart: always
+    user: "1001:1001"
+    depends_on:
+    - manual-portal-front
+    ports:
+      - '3000:3000'
+    env_file:
+      - ./.env
+    volumes:
+    - ./content:/content
+    networks:
+      - manual-portal-network
+
+networks:
+  manual-portal-network:
