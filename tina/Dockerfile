@@ -15,9 +15,17 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
+RUN rm -rf ./content
+
+# 3. Crear estructura de contenido mínima
+RUN mkdir -p ./content/posts && \
+    echo '{"posts":[]}' > ./content/index.json && \
+    echo '{"title":"Sample","body":"Content"}' > ./content/posts/sample.md
+
 # Variables de entorno para el build (ajusta según necesites)
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
+ENV TINA_PUBLIC_IS_LOCAL=false
 
 RUN pnpm run build
 
@@ -29,6 +37,12 @@ ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV PORT=3000
 ENV HOSTNAME=0.0.0.0
+ENV GITHUB_PERSONAL_ACCESS_TOKEN=''
+ENV GITHUB_OWNER=dmmlpaz
+ENV GITHUB_REPO=manual-portal-smarttmt-github
+ENV MONGODB_URI=mongodb://root:tina-startlight@172.17.0.1:27017
+ENV NEXTAUTH_SECRET=''
+ENV TINA_PUBLIC_IS_LOCAL=true
 
 RUN addgroup --system --gid 1001 nodejs && \
     adduser --system --uid 1001 nextjs
