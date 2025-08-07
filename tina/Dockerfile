@@ -13,9 +13,7 @@ COPY . .
 RUN rm -rf ./content
 
 # 3. Crear estructura de contenido mínima
-RUN mkdir -p ./content/posts && \
-    echo '{"posts":[]}' > ./content/index.json && \
-    echo '{"title":"Sample","body":"Content"}' > ./content/posts/sample.md
+RUN mkdir -p ./content 
 
 RUN pnpm run build
 

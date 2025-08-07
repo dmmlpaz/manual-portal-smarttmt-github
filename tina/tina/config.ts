@@ -30,9 +30,9 @@ export default defineConfig({
     collections: [
       TinaUserCollection,
       {
-        name: "post",
-        label: "Posts",
-        path: "/content/docs",
+        name: "docs",
+        label: "Content",
+        path: "content/docs", 
         fields: [
           {
             type: "string",
