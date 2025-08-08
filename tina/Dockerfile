@@ -1,44 +1,26 @@
-# Stage 1: Builder - Aquí compilamos la aplicación
-FROM node:22.15.0-alpine AS builder
-WORKDIR /app
-
-# 1. Instalar pnpm y dependencias
-RUN npm install -g pnpm
-COPY package.json pnpm-lock.yaml ./
-RUN pnpm install --frozen-lockfile --shamefully-hoist
-
-# 2. Copiar el resto del código y hacer build
-COPY . .
-
-RUN rm -rf ./content
-
-# 3. Crear estructura de contenido mínima
-RUN mkdir -p ./content 
-
-RUN pnpm run build
-
-# Stage 2: Runtime - Solo llevamos lo necesario para producción
 FROM node:22.15.0-alpine
 WORKDIR /app
 
-# 1. Instalar pnpm en la imagen final
+# Install pnpm
 RUN npm install -g pnpm
 
-# Configurar usuario no-root
+# Create user and set permissions
 RUN addgroup --system --gid 1001 nodejs && \
-    adduser --system --uid 1001 nextjs
+    adduser --system --uid 1001 nextjs && \
+    mkdir -p /app/tina/__generated__ /app/public/admin && \
+    chown -R nextjs:nodejs /app
 
-# Copiar artefactos del build desde la etapa builder
-COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
-COPY --from=builder --chown=nextjs:nodejs /app/public ./public
-COPY --from=builder --chown=nextjs:nodejs /app/package.json ./
-COPY --from=builder --chown=nextjs:nodejs /app/node_modules ./node_modules
+# Copy package files
+COPY --chown=nextjs:nodejs package.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile --shamefully-hoist
 
-# Configuración de entorno
-ENV NODE_ENV=production
+# Copy app files
+COPY --chown=nextjs:nodejs . .
+
+# Runtime config
+ENV NODE_ENV=development
+ENV VITE_HOST=0.0.0.0
 ENV PORT=3000
-
-# Ejecución
-USER nextjs
 EXPOSE 3000
-CMD ["pnpm", "start"]
+EXPOSE 4001
+CMD ["pnpm", "dev"]

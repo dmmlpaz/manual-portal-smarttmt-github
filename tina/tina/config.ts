@@ -1,5 +1,5 @@
 import { defineConfig } from "tinacms";
-import {UsernamePasswordAuthJSProvider,TinaUserCollection} from "tinacms-authjs/dist/tinacms";
+import { UsernamePasswordAuthJSProvider, TinaUserCollection } from "tinacms-authjs/dist/tinacms";
 import { LocalAuthProvider } from "tinacms";
 
 // Your hosting provider likely exposes this as an environment variable
@@ -18,6 +18,11 @@ export default defineConfig({
   build: {
     outputFolder: "admin",
     publicFolder: "public",
+    host:true
+  },
+  server: {
+    host: '0.0.0.0',  // Acepta conexiones de cualquier IP
+    port: 4001
   },
   media: {
     tina: {
@@ -32,7 +37,13 @@ export default defineConfig({
       {
         name: "docs",
         label: "Content",
-        path: "content/docs", 
+        path: "content/docs",
+        ui: {
+          // @ts-ignore
+          defaultItem: {
+            layout: "layout",
+          },
+        },
         fields: [
           {
             type: "string",
@@ -48,10 +59,6 @@ export default defineConfig({
             isBody: true,
           },
         ],
-        ui: {
-          // This is an DEMO router. You can remove this to fit your site
-          //router: ({ document }) => `/demo/blog/${document._sys.filename}`,
-        },
       },
     ],
   },
