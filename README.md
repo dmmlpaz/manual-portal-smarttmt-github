@@ -1,4 +1,5 @@
 # Dependecias del proyecto
+    
     1. inotifywait es una herramienta de línea de comandos en Linux que permite a los usuarios monitorear cambios en el sistema de archivos.
         -- sudo apt install inotify-tools
     2. Starlight  es un tema de documentación completo construido sobre el framework Astro
