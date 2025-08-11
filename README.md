@@ -3,7 +3,21 @@
 
 # Nota de logica de funcionamiento de despliegue a produccion
 
-    Se implementa la siguiente logica para llevar tina cms y startlight a produccion debido a que el framework de tina para produccion esta cohecionado a
-    github , el servicio cloud de tina y el funcionamiento en self-hosted con next js con esta limitantes se genera la siguiente estrategis para desplegar en un ambiente propio sin tina cloud, sin github y con startlight de astro.
+Se implementa la siguiente lógica para llevar Tina CMS y Starlight a producción, debido a que el framework de Tina para entornos productivos está estrechamente integrado con GitHub, el servicio en la nube de Tina (Tina Cloud) y el funcionamiento en modo self-hosted con Next.js.
 
-    Se implementa una logica donde tina cms funcionando con next js, sera el backend de tina con logica de self-hosted en modo dev o desarrollo para que la configuracion del contenido se escribe en volumen de docker, una vez un usuario haga un cambio en el contenido, se indentifica que el volumen tubo modificacion y por medio de la herramienta inotify-tools que detecta cambio en el file system en esta cado en el voumne de tina del contenido del cms de la ruta volumen -> - ./content:/app/content este dispara un .sh llamado listener-rebuild-starlight.sh que lo que hace es compiar el volumen modficado en el proyecto de starlight que es el cliente del manual en la ruta  src/content , depues de copiar el contenido modificado se hace el rebuil de la imagen del starlight y se realiza el redploy del del sistema de todos los contendores, con esta logica se realiza el despliegue a produccion y el cambio del contenido en caliente
+Dado estas limitaciones, se diseña la siguiente estrategia para desplegar en un ambiente propio, sin utilizar Tina Cloud, sin GitHub, y empleando Starlight (basado en Astro):
+
+Se establece una lógica donde Tina CMS, funcionando con Next.js, actúa como backend en modo self-hosted en entorno de desarrollo (dev). La configuración del contenido se escribe directamente en un volumen de Docker.
+
+Cuando un usuario realiza un cambio en el contenido, se detecta una modificación en el volumen. Para esto, se utiliza la herramienta inotify-tools, que monitorea cambios en el sistema de archivos. En este caso, monitorea el volumen del contenido del CMS, montado en la ruta:
+
+```bash
+    volumes:
+      - ./content:/app/content
+```
+
+Cuando se detecta un cambio, se ejecuta un script .sh llamado listener-rebuild-starlight.sh. Este script copia el contenido modificado desde el volumen de Tina hacia el proyecto de Starlight, específicamente en la ruta src/content.
+
+Después de copiar el nuevo contenido, se realiza un rebuild de la imagen de Starlight y se hace un redeploy de todo el sistema de contenedores.
+
+Con esta lógica, se permite realizar un despliegue a producción, permitiendo además cambios de contenido en caliente (hot content updates), sin depender de Tina Cloud ni de GitHub.
