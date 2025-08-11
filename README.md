@@ -30,5 +30,14 @@ Después de copiar el nuevo contenido, se realiza un rebuild de la imagen de Sta
 
 Con esta lógica, se permite realizar un despliegue a producción, permitiendo además cambios de contenido en caliente (hot content updates), sin depender de Tina Cloud ni de GitHub.
 
-# El symlink o enlace simbolico para desarrollo local se ejecuta desde el proyecto de tina la fuent de datos del contenido del sitio es startlight en la ruta /src/content/docs
-  -- sudo ln -s /opt/reposmart/manual-portal-smarttmt-github/startlight/src/content/docs content
+# Logica de creacion de contenido en desarrollo:
+
+    1. La fuente del  contendio lo va a servir el proyecto de starlight desde el directorio startlight/src/content/docs y se deb de crear un 
+    symlink o enlace simbolico para desarrollo en el proyecto de tina la fuente de datos del contenido del sitio es startlight en la ruta /src/content/docs
+        -- sudo ln -s /opt/reposmart/manual-portal-smarttmt-github/startlight/src/content/docs content
+
+    2. para desarrollo o crear contenido rapidamente ejecutar en cada proyecto el siguiente comando
+        -- startlight pnpm dev
+        -- tina pnpm dev
+    
+    3. Una vez creado el cotenido del sistema que esta en  startlight en ruta startlight/src/content/docs hace commit al repositorio de github y el de smart el github es obligatorio debido a que tina necesita para su funcionamiento una cuenta de github y en el de smart va hacer donde se guarde el contenido del sistema
