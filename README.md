@@ -29,3 +29,6 @@ Cuando se detecta un cambio, se ejecuta un script .sh llamado listener-rebuild-s
 Después de copiar el nuevo contenido, se realiza un rebuild de la imagen de Starlight y se hace un redeploy de todo el sistema de contenedores.
 
 Con esta lógica, se permite realizar un despliegue a producción, permitiendo además cambios de contenido en caliente (hot content updates), sin depender de Tina Cloud ni de GitHub.
+
+# El symlink o enlace simbolico para desarrollo local se ejecuta desde el proyecto de tina la fuent de datos del contenido del sitio es startlight en la ruta /src/content/docs
+  -- sudo ln -s /opt/reposmart/manual-portal-smarttmt-github/startlight/src/content/docs content
