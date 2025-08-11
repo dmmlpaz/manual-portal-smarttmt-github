@@ -2,12 +2,6 @@
 
 import React, { useRef, useState, useEffect } from 'react';
 import styles from './ChatBot.module.css';
-import ArrowBottom from '../../icons/ArrowBottom';
-import Buscar from '../../assets/Buscar.svg'
-import Robot from '../../assets/robot.png'
-import Persona from '../../assets/Persona.png'
-import LogoTransparente from '../../assets/LogoTransparente.png';
-import ImgLogoChat from '../../assets/robot_icon.png'; // Asegúrate de que esta ruta sea correcta
 
 const ChatBot = () => {
   const [OpenChat, setOpenChat] = useState(false);
@@ -29,12 +23,6 @@ const ChatBot = () => {
 
   const FechaActvidad = `${dia}/${mes}/${anio},${hora}:${minuto}:${segundos}`;
 
-  useEffect(() => {
-    if (previousChats.length > 0) {
-      scrollToBottom();
-    }
-  }, [previousChats]);
-
   const FlowiseAI = async () => {
     try {
       setLoading(true);
@@ -55,13 +43,13 @@ const ChatBot = () => {
       }
 
       setPreviousChats(prevChats => ([
-        ...prevChats, 
+        ...prevChats,
         {
           title: currentTitle || value,
           role: "Usuario",
           content: value,
           fecha: FechaActvidad
-        }, 
+        },
         {
           title: currentTitle || value,
           role: 'Smart TMT (IA)',
@@ -73,7 +61,7 @@ const ChatBot = () => {
       if (!currentTitle) {
         setCurrentTitle(value);
       }
-      
+
     } catch (error) {
       console.error(error);
     } finally {
@@ -95,32 +83,38 @@ const ChatBot = () => {
     }
   };
 
+  const currentChat = previousChats.filter(previousChats => previousChats.title == currentTitle)
+
+
   useEffect(() => {
     scrollToBottom();
-
     const interval = setInterval(() => {
       setFecha(new Date());
     }, 1000);
-
     return () => clearInterval(interval);
   }, [message])
 
-  const currentChat = previousChats.filter(previousChats => previousChats.title == currentTitle)
+
+  useEffect(() => {
+    if (previousChats.length > 0) {
+      scrollToBottom();
+    }
+  }, [previousChats]);
 
   return (
-    <div>
+    <div className={styles.ContainerChatBot}>
       <div className={styles.Container_Icono} onClick={() => setOpenChat(!OpenChat)}>
         {!OpenChat ? (
-          <img src={ImgLogoChat} alt="Chat Icon" className={styles.IconoChat} />
+          <img src='/img/robot_icon.png' alt="Chat Icon" className={styles.IconoChat} />
         ) : (
-          <img src={ArrowBottom} alt="Close Icon" className={styles.IconoChatArrow} />
+          <img src='/img/Arrow.svg' alt="Close Icon" className={styles.IconoChatArrow} />
         )}
       </div>
 
       {OpenChat && (
         <div className={styles.ContenChatBot}>
           <div className={styles.Cabecera_chatbot}>
-            <img className={styles.Smart} src={LogoTransparente} alt="" />
+            <img className={styles.Smart} src='/img/LogoTransparente.png' alt="" />
             <span className={styles.TituloAsistente}>Asistente Virtual IA</span>
           </div>
           <hr />
@@ -138,9 +132,9 @@ const ChatBot = () => {
                 >
                   <div className={chatBot.role === 'Smart TMT (IA)' ? styles.ImagenBoot : ''}>
                     {chatBot.role === 'Usuario' ? (
-                      <img className={styles.img_chatRoleUsuario} src={Persona} alt="" />
+                      <img className={styles.img_chatRoleUsuario} src='/img/Persona.png' alt="" />
                     ) : (
-                      <img className={styles.img_chatRoleIA} src={Robot} alt="" />
+                      <img className={styles.img_chatRoleIA} src='/img/robot.png' alt="" />
                     )}
                   </div>
                   <div
@@ -172,7 +166,7 @@ const ChatBot = () => {
                 {loading ? (
                   <div className={styles.Loader}></div>
                 ) : (
-                  <img src={Buscar} className={styles.imgChatBot} alt="" />
+                  <img src='/img/Buscar.svg' className={styles.imgChatBot} alt="" />
                 )}
               </button>
             </div>
