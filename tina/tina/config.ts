@@ -61,13 +61,5 @@ export default defineConfig({
         ],
       },
     ],
-  },
-  webhooks: {
-    contentUpdates: [
-      {
-        url: process.env.WEBHOOK_URL || "http://host.docker.internal:8080",
-        events: ["create", "update", "delete"]
-      }
-    ]
   }
 });
