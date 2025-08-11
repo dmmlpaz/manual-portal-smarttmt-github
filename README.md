@@ -1,4 +1,4 @@
-# Dependecia del proyecto
+# Dependecias del proyecto
     1. inotifywait es una herramienta de línea de comandos en Linux que permite a los usuarios monitorear cambios en el sistema de archivos.
         -- sudo apt install inotify-tools
     2. Starlight  es un tema de documentación completo construido sobre el framework Astro
@@ -6,8 +6,6 @@
     3. TinaCMS es un open source CMS headles con que soporta git
         -- npx create-tina-app@latest
 
-# Comando para compilar imagen de tina
-    sudo docker build -t manual-portal-cms-tina --network=host . 
 
 # Nota de logica de funcionamiento de despliegue a produccion
 
@@ -30,6 +28,7 @@ Después de copiar el nuevo contenido, se realiza un rebuild de la imagen de Sta
 
 Con esta lógica, se permite realizar un despliegue a producción, permitiendo además cambios de contenido en caliente (hot content updates), sin depender de Tina Cloud ni de GitHub.
 
+
 # Logica de creacion de contenido en desarrollo:
 
     1. La fuente del  contendio lo va a servir el proyecto de starlight desde el directorio startlight/src/content/docs y se deb de crear un 
@@ -41,3 +40,9 @@ Con esta lógica, se permite realizar un despliegue a producción, permitiendo a
         -- tina pnpm dev
     
     3. Una vez creado el cotenido del sistema que esta en  startlight en ruta startlight/src/content/docs hace commit al repositorio de github y el de smart el github es obligatorio debido a que tina necesita para su funcionamiento una cuenta de github y en el de smart va hacer donde se guarde el contenido del sistema
+   
+
+# Comando para compilar imagen de tina y starlight
+    
+    -- sudo docker build -t manual-portal-cms-tina --network=host .
+    -- sudo docker build -t manual-portal-front --network=host . 
