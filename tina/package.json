@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "VITE_HOST=0.0.0.0 tinacms dev -c \"next dev\" --rootPath /app",
+    "prod": "VITE_HOST=0.0.0.0 tinacms dev -c \"next dev\" --rootPath /app",
+    "dev": "tinacms dev -c \"next dev\"",
     "build": "tinacms build && next build",
     "setup:users": "tinacms-next-auth setup",
     "start": "next start"
