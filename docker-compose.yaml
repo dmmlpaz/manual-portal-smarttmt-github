@@ -7,8 +7,8 @@ services:
     restart: always
     ports:
       - "4321:4321"
-    volumes:
-      - ./content:/app/src/content
+    #volumes:
+     # - ./content:/app/src/content
     networks:
       - manual-portal-network
 
