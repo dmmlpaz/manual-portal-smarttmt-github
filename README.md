@@ -1,3 +1,11 @@
+# Dependecia del proyecto
+    1. inotifywait es una herramienta de línea de comandos en Linux que permite a los usuarios monitorear cambios en el sistema de archivos.
+        -- sudo apt install inotify-tools
+    2. Starlight  es un tema de documentación completo construido sobre el framework Astro
+        -- pnpm create astro --template starlight
+    3. TinaCMS es un open source CMS headles con que soporta git
+        -- npx create-tina-app@latest
+
 # Comando para compilar imagen de tina
     sudo docker build -t manual-portal-cms-tina --network=host . 
 
@@ -7,7 +15,7 @@ Se implementa la siguiente lógica para llevar Tina CMS y Starlight a producció
 
 Dado estas limitaciones, se diseña la siguiente estrategia para desplegar en un ambiente propio, sin utilizar Tina Cloud, sin GitHub, y empleando Starlight (basado en Astro):
 
-Se establece una lógica donde Tina CMS, funcionando con Next.js, actúa como backend en modo self-hosted en entorno de desarrollo (dev). La configuración del contenido se escribe directamente en un volumen de Docker.
+Se establece una lógica donde Tina CMS, funcionando con Next.js, actúa como backend en modo self-hosted en entorno de desarrollo (dev). La modificaciones del contenido se escribe directamente en un volumen de Docker.
 
 Cuando un usuario realiza un cambio en el contenido, se detecta una modificación en el volumen. Para esto, se utiliza la herramienta inotify-tools, que monitorea cambios en el sistema de archivos. En este caso, monitorea el volumen del contenido del CMS, montado en la ruta:
 
