@@ -1,9 +1,10 @@
 #!/bin/bash
 
-LOG_FILE="/opt/images-docker/admin_portal/listener-tina.log"
+LOG_FILE="/opt/images-docker/admin_portal/listener-build.log"
 WATCH_DIR="/opt/images-docker/admin_portal/content/docs"
 CONTENT_STARTLIGHT="/opt/images-docker/admin_portal/manual-portal-smarttmt-github/startlight/src/content/docs"
 CONTENT_TINA_MODIFICADO="/opt/images-docker/admin_portal/content/docs"
+#DOCKER_IMAGEN_RUTA="/opt/images-docker/admin_portal/manual-portal-smarttmt-github/startlight/Dockerfile"
 DOCKER_CONTEXTO="/opt/images-docker/admin_portal/manual-portal-smarttmt-github/startlight"
 DOCKER_CONTEXTO_COMPOSE="/opt/images-docker/admin_portal"
 
@@ -27,3 +28,4 @@ while read path action file; do
     sudo docker compose up -d >> "$LOG_FILE" 2>&1
     
     echo "$(date) Rebuild completado y servicios reiniciados" >> "$LOG_FILE"
+done
