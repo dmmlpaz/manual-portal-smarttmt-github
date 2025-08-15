@@ -12,7 +12,8 @@ RUN addgroup --system --gid 1001 nodejs && \
 
 # Copy package files
 COPY --chown=nextjs:nodejs package.json pnpm-lock.yaml ./
-RUN pnpm install --frozen-lockfile --shamefully-hoist
+RUN pnpm install --frozen-lockfile --shamefully-hoist && \
+    chown -R nextjs:nodejs /app/node_modules
 
 # Copy app files
 COPY --chown=nextjs:nodejs . .
