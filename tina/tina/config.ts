@@ -1,5 +1,5 @@
 import { defineConfig } from "tinacms";
-import { UsernamePasswordAuthJSProvider, TinaUserCollection } from "tinacms-authjs/dist/tinacms";
+import { TinaUserCollection } from "tinacms-authjs/dist/tinacms";
 import { LocalAuthProvider } from "tinacms";
 
 // Your hosting provider likely exposes this as an environment variable
@@ -8,21 +8,13 @@ const branch =
   process.env.VERCEL_GIT_COMMIT_REF ||
   process.env.HEAD ||
   "main";
-const isLocal = true//process.env.TINA_PUBLIC_IS_LOCAL === "true";
 export default defineConfig({
-  contentApiUrlOverride: "/api/tina/gql",
   branch,
-  authProvider: isLocal
-    ? new LocalAuthProvider()
-    : new UsernamePasswordAuthJSProvider(),
+  authProvider:  new LocalAuthProvider(),
   build: {
     outputFolder: "admin",
     publicFolder: "public",
     host: true
-  },
-  server: {
-    host: '0.0.0.0',  // Acepta conexiones de cualquier IP
-    port: 4001
   },
   media: {
     tina: {
