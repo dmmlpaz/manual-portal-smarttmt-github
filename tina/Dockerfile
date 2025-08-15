@@ -17,6 +17,8 @@ RUN pnpm install --frozen-lockfile --shamefully-hoist
 # Copy app files
 COPY --chown=nextjs:nodejs . .
 
+USER nextjs
+
 # Runtime config
 ENV NODE_ENV=development
 ENV VITE_HOST=0.0.0.0

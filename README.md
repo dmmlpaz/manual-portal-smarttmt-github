@@ -47,3 +47,5 @@ Con esta lógica, se permite realizar un despliegue a producción, permitiendo a
     
     -- sudo docker build -t manual-portal-cms-tina --network=host .
     -- sudo docker build -t manual-portal-front --network=host . 
+
+    
