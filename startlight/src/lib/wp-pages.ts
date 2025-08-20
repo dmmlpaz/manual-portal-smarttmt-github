@@ -35,7 +35,6 @@ export const getPages = async (slug: string) => {
         const markdownContent = turndown.turndown(html);
 
         // Armar frontmatter + contenido
-
         const fileContent = `---\n` +
         `title: "${title.replace(/"/g, '\\"')}"\n` +
         `---\n\n` +
