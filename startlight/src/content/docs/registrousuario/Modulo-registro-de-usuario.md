@@ -1,8 +1,10 @@
 ---
 title: Modulo registro de usuario
 ---
+const data = getPages('')
 
 MARCA
 
 * pRUEBA
-* PRUEBA 2
+* PRUEBA
+* {data}
